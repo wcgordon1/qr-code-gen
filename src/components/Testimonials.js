@@ -5,26 +5,26 @@ const Testimonials = () => {
   const testimonials = [
     {
       quote: "This is a section of some simple filler text, also known as placeholder text.",
-      name: "Dr. Milly Barker",
+      name: "John McCulling",
       role: "CEO / Datadrift",
-      image: "/images/milly.jpg"
+      image: "https://images.unsplash.com/photo-1567515004624-219c11d31f2e?auto=format&q=75&fit=crop&w=112"
     },
     {
       quote: "This is a section of some simple filler text, also known as placeholder text.",
       name: "Kate Berg",
       role: "CFO / Dashdash",
-      image: "/images/milly.jpg"
+      image: "https://images.unsplash.com/photo-1532073150508-0c1df022bdd1?auto=format&q=75&fit=crop&w=112"
     },
     {
       quote: "This is a section of some simple filler text, also known as placeholder text.",
       name: "Greg Jackson",
       role: "CTO / Uptime",
-      image: "/images/milly.jpg"
+      image: "https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&q=75&fit=crop&w=112"
     }
   ];
 
   return (
-    <div className="bg-white py-20 sm:py-24 lg:py-24">
+    <div className="bg-white py-6 sm:py-8 lg:py-12">
       <div className="mx-auto max-w-screen-xl px-4 md:px-8">
         <h2 className="mb-8 text-center text-2xl font-bold text-gray-800 md:mb-12 lg:text-3xl">
           What others say about us
@@ -39,13 +39,13 @@ const Testimonials = () => {
                   <Image
                     src={testimonial.image}
                     alt={`Photo of ${testimonial.name}`}
-                    width={122}
-                    height={122}
+                    width={112}
+                    height={112}
                     className="object-cover object-center"
                   />
                 </div>
                 <div>
-                  <div className="text-center text-sm font-bold text-indigo-600 sm:text-left md:text-base">
+                  <div className="text-center text-sm font-bold text-indigo-500 sm:text-left md:text-base">
                     {testimonial.name}
                   </div>
                   <p className="text-center text-sm text-gray-500 sm:text-left md:text-sm">
