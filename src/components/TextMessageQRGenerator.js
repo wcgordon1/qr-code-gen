@@ -6,8 +6,10 @@ import { ChromePicker } from 'react-color';
 import Image from 'next/image';
 import toast, { Toaster } from 'react-hot-toast';
 
-const QRCodeGenerator = () => {
-  const [url, setUrl] = useState('');
+const TextMessageQRGenerator = () => {
+  const [countryCode, setCountryCode] = useState('+1');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [message, setMessage] = useState('');
   const [qrCode, setQrCode] = useState(null);
   const [dotsColor, setDotsColor] = useState('#000000');
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
@@ -15,14 +17,11 @@ const QRCodeGenerator = () => {
   const [showBgColorPicker, setShowBgColorPicker] = useState(false);
   const [isQRCodeGenerated, setIsQRCodeGenerated] = useState(false);
   const [contrastWarning, setContrastWarning] = useState(false);
-  const [lastGeneratedUrl, setLastGeneratedUrl] = useState('');
-  const [lastGeneratedDotsColor, setLastGeneratedDotsColor] = useState('#000000');
-  const [lastGeneratedBackgroundColor, setLastGeneratedBackgroundColor] = useState('#ffffff');
+  const [qrType, setQrType] = useState('square');
   const qrRef = useRef(null);
   const dotsColorPickerRef = useRef(null);
   const bgColorPickerRef = useRef(null);
   const qrContainerRef = useRef(null);
-  const [qrType, setQrType] = useState('square');
 
   useEffect(() => {
     const qrCode = new QRCodeStyling({
@@ -42,10 +41,9 @@ const QRCodeGenerator = () => {
 
   useEffect(() => {
     if (qrCode && qrRef.current && isQRCodeGenerated) {
-      qrRef.current.innerHTML = '';
-      qrCode.append(qrRef.current);
-      
-      // After appending, find the SVG and adjust its attributes
+      qrRef.current.innerHTML = ''; // Clear previous QR code
+      qrCode.append(qrRef.current);  // Append new QR code
+
       const svg = qrRef.current.querySelector('svg');
       if (svg) {
         svg.setAttribute('width', '100%');
@@ -59,31 +57,31 @@ const QRCodeGenerator = () => {
   }, [qrCode, isQRCodeGenerated]);
 
   useEffect(() => {
-    // Check if the current input or colors are different from the last generated QR code
-    if (isQRCodeGenerated && 
-        (url !== lastGeneratedUrl || 
-         dotsColor !== lastGeneratedDotsColor || 
-         backgroundColor !== lastGeneratedBackgroundColor)) {
-      setIsQRCodeGenerated(false);
-    }
-  }, [url, dotsColor, backgroundColor]);
+    setIsQRCodeGenerated(false);
+  }, [countryCode, phoneNumber, message]);
 
   const generateQRCode = (e) => {
     e.preventDefault();
-    if (qrCode && url) {
+    if (!phoneNumber.trim()) {
+      toast.error('Must input telephone number', {
+        duration: 3000,
+        position: 'top-right',
+        style: {
+          background: '#ef4444',
+          color: '#fff',
+        },
+      });
+      return;
+    }
+    const cleanedPhoneNumber = phoneNumber.replace(/[-()\s]/g, '');
+    const data = `sms:${countryCode}${cleanedPhoneNumber}?body=${encodeURIComponent(message)}`;
+    if (qrCode) {
       qrCode.update({
-        data: url,
-        imageOptions: {
-          saveAs: "svg" // Generating as SVG to ensure better scaling
-        }
+        data: data,
       });
       setIsQRCodeGenerated(true);
-      setLastGeneratedUrl(url);
-      setLastGeneratedDotsColor(dotsColor);
-      setLastGeneratedBackgroundColor(backgroundColor);
       
-      // Show toast notification
-      toast.success(`QR Code for "${url}" is ready to download`, {
+      toast.success(`QR Code for text message is ready to download`, {
         duration: 3000,
         position: 'top-right',
         style: {
@@ -100,7 +98,7 @@ const QRCodeGenerator = () => {
 
   const downloadQRCode = (fileType) => {
     if (qrCode) {
-      const fileName = prompt(`Enter a file name for your ${fileType.toUpperCase()} download:`, 'my-qr-code');
+      const fileName = prompt(`Enter a file name for your ${fileType.toUpperCase()} download:`, 'my-text-message-qr-code');
       if (fileName) {
         qrCode.download({
           extension: fileType,
@@ -108,10 +106,6 @@ const QRCodeGenerator = () => {
         });
       }
     }
-  };
-
-  const handleUrlChange = (e) => {
-    setUrl(e.target.value);
   };
 
   const handleDotsColorChange = (newColor) => {
@@ -168,7 +162,7 @@ const QRCodeGenerator = () => {
         ></div>
       </div>
       {showPicker && (
-        <div className="absolute bottom-full mb-2 z-10">
+        <div className="absolute bottom-full mb-2 z-10" ref={children === 'QR Color' ? dotsColorPickerRef : bgColorPickerRef}>
           <div className="bg-white rounded-lg shadow-lg p-4" style={{ width: '250px' }}>
             <div className="flex justify-between items-center mb-2">
               <span className="text-gray-700 font-semibold">Choose Color</span>
@@ -195,7 +189,7 @@ const QRCodeGenerator = () => {
 
   const handleTypeChange = (newType) => {
     setQrType(newType);
-    setIsQRCodeGenerated(false); // Reset to show default image
+    setIsQRCodeGenerated(false);
     if (qrCode) {
       qrCode.update({
         dotsOptions: {
@@ -214,18 +208,50 @@ const QRCodeGenerator = () => {
     </button>
   );
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dotsColorPickerRef.current && !dotsColorPickerRef.current.contains(event.target)) {
+        setShowDotsColorPicker(false);
+      }
+      if (bgColorPickerRef.current && !bgColorPickerRef.current.contains(event.target)) {
+        setShowBgColorPicker(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       <div className="flex flex-col gap-8 md:flex-row md:items-start">
         <div className="flex flex-col justify-center md:w-1/2">
           <form onSubmit={generateQRCode} className="mb-4 flex flex-col gap-4">
-            <input
-              type="text"
-              value={url}
-              onChange={handleUrlChange}
-              placeholder="Enter URL or text"
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={countryCode}
+                onChange={(e) => setCountryCode(e.target.value)}
+                placeholder="Country Code"
+                className="w-1/4 rounded-lg border border-gray-300 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
+              />
+              <input
+                type="tel"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="Phone Number"
+                className="w-3/4 rounded-lg border border-gray-300 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
+              />
+            </div>
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Enter your message. Not compatible with iMessage. Sorry for the inconvenience (not me)."
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
-            />
+              rows="4"
+            ></textarea>
             <button
               type="submit"
               className="inline-block rounded-lg bg-indigo-600 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-700 focus-visible:ring active:bg-indigo-800 md:text-base"
@@ -328,4 +354,4 @@ const QRCodeGenerator = () => {
   );
 };
 
-export default QRCodeGenerator;
+export default TextMessageQRGenerator;

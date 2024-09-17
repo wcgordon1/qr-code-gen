@@ -24,10 +24,10 @@ const Hero = () => {
           {/* content - end */}
 
           {/* image - start */}
-          <div className="h-48 overflow-hidden rounded-lg bg-gray-100 shadow-lg lg:w-300">
+          <div className="h-48 overflow-hidden rounded-lg bg-gray-100 shadow-lg lg:h-auto xl:w-5/12">
             <Image
-              src="/images/pinger.png"
-              alt="QR Code Llama"
+              src="https://images.unsplash.com/photo-1618004912476-29818d81ae2e?auto=format&q=75&fit=crop&w=1000"
+              alt="Photo by Fakurian Design"
               width={1000}
               height={1000}
               className="h-full w-full object-cover object-center"
