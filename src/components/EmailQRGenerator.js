@@ -271,6 +271,7 @@ const EmailQRGenerator = () => {
             <p className="text-black font-bold xl:text-lg">
               Type:
             </p>
+            <div className="flex justify-start space-x-4">
             <TypeIcon 
                 type="rounded" 
                 icon={
@@ -296,6 +297,7 @@ const EmailQRGenerator = () => {
                   </svg>
                 } 
               />
+              </div>
             </div>
             <p className="text-black font-bold xl:text-lg">
               Color:
