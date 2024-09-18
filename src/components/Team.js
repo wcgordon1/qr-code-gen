@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const Team = () => {
   const teamMembers = [
-    { name: "Will G.", role: "Custodial Arts", image: "/images/me44.png" },
+    { name: "Will G.", role: "Custodial Arts", image: "/images/willy.webp" },
     { name: "Larry L.", role: "Head of Technical Marketing", image: "/images/llama.webp" },
     { name: "Arty I.", role: "Chief Technical Officer", image: "/images/arti.webp" },
   ];

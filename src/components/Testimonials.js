@@ -5,9 +5,9 @@ const Testimonials = () => {
   const testimonials = [
     {
       quote: "No Ads and No Email. Just a free QR Code Generator. What more could you want?",
-      name: "Dr. Milly Barker",
-      role: "Tech Founder",
-      image: "/images/milly.jpg"
+      name: "Danny Devito",
+      role: "Hollywood Movie Star",
+      image: "/images/danny.jpg"
     },
     {
       quote: "I use QR Code Llama to generate QR Codes for all my businesses. Plus I ate with Will at Wingstop and he is a cool guy.",
@@ -16,10 +16,10 @@ const Testimonials = () => {
       image: "/images/ron.jpg"
     },
     {
-      quote: "This is a section of some simple filler text, also known as placeholder text.",
-      name: "Greg Jackson",
-      role: "CTO / Uptime",
-      image: "/images/milly.jpg"
+      quote: "I thought SpaceX was a cool company, but we don't make QR Codes. My mind was seriously blown after using QR Code Llama. Next level stuff!",
+      name: "Elon Musk",
+      role: "Tesla, SpaceX, Neuralink, X, etc.",
+      image: "/images/elon1.jpg"
     }
   ];
 
