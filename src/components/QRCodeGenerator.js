@@ -15,20 +15,17 @@ const QRCodeGenerator = () => {
   const [showBgColorPicker, setShowBgColorPicker] = useState(false);
   const [isQRCodeGenerated, setIsQRCodeGenerated] = useState(false);
   const [contrastWarning, setContrastWarning] = useState(false);
-  const [lastGeneratedUrl, setLastGeneratedUrl] = useState('');
-  const [lastGeneratedDotsColor, setLastGeneratedDotsColor] = useState('#000000');
-  const [lastGeneratedBackgroundColor, setLastGeneratedBackgroundColor] = useState('#ffffff');
+  const [qrType, setQrType] = useState('square');
   const qrRef = useRef(null);
   const dotsColorPickerRef = useRef(null);
   const bgColorPickerRef = useRef(null);
   const qrContainerRef = useRef(null);
-  const [qrType, setQrType] = useState('square');
 
   useEffect(() => {
     const qrCode = new QRCodeStyling({
       width: 1000,
       height: 1000,
-      type: 'svg',
+      type: 'canvas',
       dotsOptions: {
         color: dotsColor,
         type: qrType
@@ -44,45 +41,44 @@ const QRCodeGenerator = () => {
     if (qrCode && qrRef.current && isQRCodeGenerated) {
       qrRef.current.innerHTML = '';
       qrCode.append(qrRef.current);
-      
-      // After appending, find the SVG and adjust its attributes
-      const svg = qrRef.current.querySelector('svg');
-      if (svg) {
-        svg.setAttribute('width', '100%');
-        svg.setAttribute('height', '100%');
-        svg.setAttribute('viewBox', '0 0 1000 1000');
-        svg.style.display = 'block';
-        svg.style.maxWidth = '100%';
-        svg.style.maxHeight = '100%';
+
+      const canvas = qrRef.current.querySelector('canvas');
+      if (canvas) {
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.maxWidth = '100%';
+        canvas.style.maxHeight = '100%';
+        canvas.style.objectFit = 'contain';
       }
     }
   }, [qrCode, isQRCodeGenerated]);
 
   useEffect(() => {
-    // Check if the current input or colors are different from the last generated QR code
-    if (isQRCodeGenerated && 
-        (url !== lastGeneratedUrl || 
-         dotsColor !== lastGeneratedDotsColor || 
-         backgroundColor !== lastGeneratedBackgroundColor)) {
-      setIsQRCodeGenerated(false);
-    }
-  }, [url, dotsColor, backgroundColor]);
+    setIsQRCodeGenerated(false);
+  }, [url]);
 
   const generateQRCode = (e) => {
     e.preventDefault();
-    if (qrCode && url) {
+    if (!url.trim()) {
+      toast.error('Must input a URL', {
+        duration: 3000,
+        position: 'top-right',
+        style: {
+          background: '#ef4444',
+          color: '#fff',
+        },
+      });
+      return;
+    }
+    if (qrCode) {
       qrCode.update({
         data: url,
-        imageOptions: {
-          saveAs: "svg" // Generating as SVG to ensure better scaling
-        }
       });
-      setIsQRCodeGenerated(true);
-      setLastGeneratedUrl(url);
-      setLastGeneratedDotsColor(dotsColor);
-      setLastGeneratedBackgroundColor(backgroundColor);
+      setIsQRCodeGenerated(false);
+      setTimeout(() => {
+        setIsQRCodeGenerated(true);
+      }, 50);
       
-      // Show toast notification
       toast.success(`QR Code for "${url}" is ready to download`, {
         duration: 3000,
         position: 'top-right',
@@ -102,16 +98,18 @@ const QRCodeGenerator = () => {
     if (qrCode) {
       const fileName = prompt(`Enter a file name for your ${fileType.toUpperCase()} download:`, 'my-qr-code');
       if (fileName) {
-        qrCode.download({
-          extension: fileType,
-          name: fileName,
-        });
+        const canvas = qrRef.current.querySelector('canvas');
+        if (canvas) {
+          const dataUrl = canvas.toDataURL(`image/${fileType}`);
+          const link = document.createElement('a');
+          link.download = `${fileName}.${fileType}`;
+          link.href = dataUrl;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
       }
     }
-  };
-
-  const handleUrlChange = (e) => {
-    setUrl(e.target.value);
   };
 
   const handleDotsColorChange = (newColor) => {
@@ -123,7 +121,7 @@ const QRCodeGenerator = () => {
         }
       });
     }
-    checkContrast();
+    checkContrast(newColor.hex, backgroundColor);
   };
 
   const handleBackgroundColorChange = (newColor) => {
@@ -135,18 +133,18 @@ const QRCodeGenerator = () => {
         }
       });
     }
-    checkContrast();
+    checkContrast(dotsColor, newColor.hex);
   };
 
-  const checkContrast = () => {
+  const checkContrast = (fgColor, bgColor) => {
     const getLuminance = (color) => {
       const rgb = color.match(/\w\w/g).map(x => parseInt(x, 16) / 255);
       const [r, g, b] = rgb.map(c => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
       return 0.2126 * r + 0.7152 * g + 0.0722 * b;
     };
 
-    const l1 = getLuminance(dotsColor);
-    const l2 = getLuminance(backgroundColor);
+    const l1 = getLuminance(fgColor);
+    const l2 = getLuminance(bgColor);
     const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
 
     setContrastWarning(ratio < 7);
@@ -168,7 +166,7 @@ const QRCodeGenerator = () => {
         ></div>
       </div>
       {showPicker && (
-        <div className="absolute bottom-full mb-2 z-10">
+        <div className="absolute bottom-full mb-2 z-10" ref={children === 'QR Color' ? dotsColorPickerRef : bgColorPickerRef}>
           <div className="bg-white rounded-lg shadow-lg p-4" style={{ width: '250px' }}>
             <div className="flex justify-between items-center mb-2">
               <span className="text-gray-700 font-semibold">Choose Color</span>
@@ -195,7 +193,7 @@ const QRCodeGenerator = () => {
 
   const handleTypeChange = (newType) => {
     setQrType(newType);
-    setIsQRCodeGenerated(false); // Reset to show default image
+    setIsQRCodeGenerated(false);
     if (qrCode) {
       qrCode.update({
         dotsOptions: {
@@ -214,6 +212,22 @@ const QRCodeGenerator = () => {
     </button>
   );
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dotsColorPickerRef.current && !dotsColorPickerRef.current.contains(event.target)) {
+        setShowDotsColorPicker(false);
+      }
+      if (bgColorPickerRef.current && !bgColorPickerRef.current.contains(event.target)) {
+        setShowBgColorPicker(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       <div className="flex flex-col gap-8 md:flex-row md:items-start">
@@ -222,7 +236,7 @@ const QRCodeGenerator = () => {
             <input
               type="text"
               value={url}
-              onChange={handleUrlChange}
+              onChange={(e) => setUrl(e.target.value)}
               placeholder="Enter URL or text"
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
             />
