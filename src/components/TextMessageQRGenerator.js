@@ -248,7 +248,7 @@ const TextMessageQRGenerator = () => {
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="Enter your message. Not compatible with iMessage. Sorry for the inconvenience (not me)."
+              placeholder="Enter your message. Not compatible with all carriers 100% of the time."
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
               rows="4"
             ></textarea>

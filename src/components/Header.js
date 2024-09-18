@@ -10,7 +10,7 @@ const Header = () => {
         <div className="flex justify-between items-center py-4">
           <Link href="/" className="flex items-center">
             <Image src="/images/llamal.png" alt="Logo" width={30} height={30} />
-            <h1 className="ml-2 text-l font-bold">QR Code Llama</h1>
+            <h1 className="ml-2 text-xl font-bold">QR Code Llama</h1>
           </Link>
           <div className="flex space-x-4 items-center">
             <Link href="/info" className="text-gray-600 font-semibold hover:text-black">
