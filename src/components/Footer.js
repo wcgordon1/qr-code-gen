@@ -61,11 +61,11 @@ const Footer = () => {
             <div>
               <div className="mb-4 font-bold uppercase tracking-widest text-gray-800">Llama</div>
               <nav className="flex flex-col gap-4">
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Link QR Code</Link></div>
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Email Qr Code</Link></div>
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">SMS QR Code</Link></div>
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Call Qr Code</Link></div>
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Wifi QR Code</Link></div>
+                <div><Link href="/qr-code-generator" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Link QR Code</Link></div>
+                <div><Link href="/email-qr-code-generator" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Email Qr Code</Link></div>
+                <div><Link href="/free-text-message-qr-code-generator" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">SMS QR Code</Link></div>
+                <div><Link href="/phone-call-qr-generator" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Call Qr Code</Link></div>
+                <div><Link href="/wifi-qr-code-generator" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Wifi QR Code</Link></div>
               </nav>
             </div>
             {/* nav - end */}
