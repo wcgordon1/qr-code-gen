@@ -73,7 +73,7 @@ const PhoneCallQRGenerator = () => {
     }
     const cleanedPhoneNumber = phoneNumber.replace(/[-()\s]/g, '');
     const cleanedCountryCode = countryCode.replace(/[+\s]/g, ''); // Remove '+' and spaces from country code
-    const data = `tel:+${cleanedCountryCode}${cleanedPhoneNumber}`;
+    const data = `<a href="tel:+${cleanedCountryCode}${cleanedPhoneNumber}"></a>`;
     
     // Add this console.log statement
     console.log('QR Code data:', data);
