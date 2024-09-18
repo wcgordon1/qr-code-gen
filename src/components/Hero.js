@@ -26,7 +26,7 @@ const Hero = () => {
           {/* image - start */}
           <div className="h-48 overflow-hidden rounded-lg bg-gray-100 shadow-lg lg:h-auto xl:w-5/12">
             <Image
-              src="https://images.unsplash.com/photo-1618004912476-29818d81ae2e?auto=format&q=75&fit=crop&w=1000"
+              src="/images/qrhero.png"
               alt="Photo by Fakurian Design"
               width={1000}
               height={1000}

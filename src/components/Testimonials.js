@@ -7,19 +7,19 @@ const Testimonials = () => {
       quote: "This is a section of some simple filler text, also known as placeholder text.",
       name: "John McCulling",
       role: "CEO / Datadrift",
-      image: "https://images.unsplash.com/photo-1567515004624-219c11d31f2e?auto=format&q=75&fit=crop&w=112"
+      image: "/images/milly.jpg"
     },
     {
       quote: "This is a section of some simple filler text, also known as placeholder text.",
       name: "Kate Berg",
       role: "CFO / Dashdash",
-      image: "https://images.unsplash.com/photo-1532073150508-0c1df022bdd1?auto=format&q=75&fit=crop&w=112"
+      image: "/images/milly.jpg"
     },
     {
       quote: "This is a section of some simple filler text, also known as placeholder text.",
       name: "Greg Jackson",
       role: "CTO / Uptime",
-      image: "https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&q=75&fit=crop&w=112"
+      image: "/images/milly.jpg"
     }
   ];
 
