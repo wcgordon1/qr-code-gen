@@ -279,14 +279,6 @@ const TextMessageQRGenerator = () => {
                 } 
               />
               <TypeIcon 
-                type="dots" 
-                icon={
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <circle cx="12" cy="12" r="8" />
-                  </svg>
-                } 
-              />
-              <TypeIcon 
                 type="square" 
                 icon={
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -294,7 +286,14 @@ const TextMessageQRGenerator = () => {
                   </svg>
                 } 
               />
-            
+              <TypeIcon 
+                type="dots" 
+                icon={
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="12" cy="12" r="8" />
+                  </svg>
+                } 
+              />
             </div>
             <p className="text-black font-bold xl:text-lg">
               Color:
