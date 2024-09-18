@@ -17,7 +17,7 @@ const TextMessageQRGenerator = () => {
   const [showBgColorPicker, setShowBgColorPicker] = useState(false);
   const [isQRCodeGenerated, setIsQRCodeGenerated] = useState(false);
   const [contrastWarning, setContrastWarning] = useState(false);
-  const [qrType, setQrType] = useState('square');
+  const [qrType, setQrType] = useState('rounded');
   const qrRef = useRef(null);
   const dotsColorPickerRef = useRef(null);
   const bgColorPickerRef = useRef(null);
@@ -27,7 +27,7 @@ const TextMessageQRGenerator = () => {
     const qrCode = new QRCodeStyling({
       width: 1000,
       height: 1000,
-      type: 'svg',
+      type: 'canvas',
       dotsOptions: {
         color: dotsColor,
         type: qrType
@@ -41,17 +41,16 @@ const TextMessageQRGenerator = () => {
 
   useEffect(() => {
     if (qrCode && qrRef.current && isQRCodeGenerated) {
-      qrRef.current.innerHTML = ''; // Clear previous QR code
-      qrCode.append(qrRef.current);  // Append new QR code
+      qrRef.current.innerHTML = '';
+      qrCode.append(qrRef.current);
 
-      const svg = qrRef.current.querySelector('svg');
-      if (svg) {
-        svg.setAttribute('width', '100%');
-        svg.setAttribute('height', '100%');
-        svg.setAttribute('viewBox', '0 0 1000 1000');
-        svg.style.display = 'block';
-        svg.style.maxWidth = '100%';
-        svg.style.maxHeight = '100%';
+      const canvas = qrRef.current.querySelector('canvas');
+      if (canvas) {
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.maxWidth = '100%';
+        canvas.style.maxHeight = '100%';
+        canvas.style.objectFit = 'contain';
       }
     }
   }, [qrCode, isQRCodeGenerated]);
@@ -100,10 +99,16 @@ const TextMessageQRGenerator = () => {
     if (qrCode) {
       const fileName = prompt(`Enter a file name for your ${fileType.toUpperCase()} download:`, 'my-text-message-qr-code');
       if (fileName) {
-        qrCode.download({
-          extension: fileType,
-          name: fileName,
-        });
+        const canvas = qrRef.current.querySelector('canvas');
+        if (canvas) {
+          const dataUrl = canvas.toDataURL(`image/${fileType}`);
+          const link = document.createElement('a');
+          link.download = `${fileName}.${fileType}`;
+          link.href = dataUrl;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
       }
     }
   };
@@ -117,7 +122,7 @@ const TextMessageQRGenerator = () => {
         }
       });
     }
-    checkContrast();
+    checkContrast(newColor.hex, backgroundColor);
   };
 
   const handleBackgroundColorChange = (newColor) => {
@@ -129,18 +134,18 @@ const TextMessageQRGenerator = () => {
         }
       });
     }
-    checkContrast();
+    checkContrast(dotsColor, newColor.hex);
   };
 
-  const checkContrast = () => {
+  const checkContrast = (fgColor, bgColor) => {
     const getLuminance = (color) => {
       const rgb = color.match(/\w\w/g).map(x => parseInt(x, 16) / 255);
       const [r, g, b] = rgb.map(c => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
       return 0.2126 * r + 0.7152 * g + 0.0722 * b;
     };
 
-    const l1 = getLuminance(dotsColor);
-    const l2 = getLuminance(backgroundColor);
+    const l1 = getLuminance(fgColor);
+    const l2 = getLuminance(bgColor);
     const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
 
     setContrastWarning(ratio < 7);
@@ -262,11 +267,11 @@ const TextMessageQRGenerator = () => {
               Type:
             </p>
             <div className="flex justify-start space-x-4">
-              <TypeIcon 
-                type="square" 
+            <TypeIcon 
+                type="rounded" 
                 icon={
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <rect width="18" height="18" x="3" y="3" rx="2" />
+                    <rect width="18" height="18" x="3" y="3" rx="5" />
                   </svg>
                 } 
               />
@@ -279,13 +284,14 @@ const TextMessageQRGenerator = () => {
                 } 
               />
               <TypeIcon 
-                type="rounded" 
+                type="square" 
                 icon={
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <rect width="18" height="18" x="3" y="3" rx="5" />
+                    <rect width="18" height="18" x="3" y="3" rx="2" />
                   </svg>
                 } 
               />
+            
             </div>
             <p className="text-black font-bold xl:text-lg">
               Color:
@@ -310,7 +316,7 @@ const TextMessageQRGenerator = () => {
             </ColorButton>
             {contrastWarning && (
               <p className="text-red-500 text-sm">
-                The contrast between QR code and background colors may be too low for optimal scanning. Please choose colors with higher contrast.
+                The contrast between QR code and background colors may be too low for optimal scanning. Proceed with caution and triple check your QR code before going live.
               </p>
             )}
           </form>
