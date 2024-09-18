@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaLinkedin, FaGithub } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+import CreateQRLink from './CreateQRLink';
 
 const Header = () => {
   return (
@@ -13,9 +12,7 @@ const Header = () => {
             <h1 className="ml-2 text-xl font-bold">QR Code Llama</h1>
           </Link>
           <div className="flex space-x-4 items-center">
-            <Link href="/info" className="text-gray-600 font-semibold hover:text-black">
-              Create QR
-            </Link>
+            <CreateQRLink />
           </div>
         </div>
       </div>

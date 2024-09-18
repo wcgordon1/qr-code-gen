@@ -18,20 +18,20 @@ export const metadata = {
   title: 'QR Code Llama - Free QR Code Generator',
   description: 'Generate custom QR codes for free. No ads, no email required. Create QR codes for URLs, WiFi, text messages, and more.',
   icons: {
-    icon: '/images/llama-logo.png',
-    apple: '/images/llama-logo.png',
+    icon: '/images/llamal.png',
+    apple: '/images/llamal.png',
     other: [
       {
         rel: 'icon',
         type: 'image/png',
-        sizes: '32x32',
-        url: '/images/logocolor.png',
+        sizes: '64x64',
+        url: '/images/llamal.png',
       },
       {
         rel: 'icon',
         type: 'image/png',
         sizes: '16x16',
-        url: '/images/llama-logo.png',
+        url: '/images/llamal.png',
       },
     ],
   },
@@ -45,8 +45,8 @@ export const metadata = {
     images: [
       {
         url: '/images/qrhero.png',
-        width: 1200,
-        height: 630,
+        width: 700,
+        height: 700,
         alt: 'QR Code Llama',
       },
     ],
