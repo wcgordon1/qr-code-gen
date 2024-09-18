@@ -78,7 +78,10 @@ const TextMessageQRGenerator = () => {
       qrCode.update({
         data: data,
       });
-      setIsQRCodeGenerated(true);
+      setIsQRCodeGenerated(false);  // Reset this to false
+      setTimeout(() => {
+        setIsQRCodeGenerated(true);  // Set it back to true after a short delay
+      }, 50);
       
       toast.success(`QR Code for text message is ready to download`, {
         duration: 3000,
