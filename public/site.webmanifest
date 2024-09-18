@@ -1,0 +1,22 @@
+{
+    "name": "Qr Code Llama",
+    "short_name": "Qr Code Llama",
+    "description": "100% Free QR Code Generator. No Ads. No Emails. Just QR Codes.",
+    "icons": [
+      {
+        "src": "/images/llama-logo.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/images/qrhero.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "orientation": "portrait"
+  }

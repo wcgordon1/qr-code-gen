@@ -10,10 +10,10 @@ const Testimonials = () => {
       image: "/images/milly.jpg"
     },
     {
-      quote: "This is a section of some simple filler text, also known as placeholder text.",
-      name: "Kate Berg",
-      role: "CFO / Dashdash",
-      image: "/images/milly.jpg"
+      quote: "I use QR Code Llama to generate QR Codes for all my businesses. Plus I ate with Will at Wingstop and he is a cool guy.",
+      name: "Metta Sandiford-Artest",
+      role: "Small Forward / LA Lakers",
+      image: "/images/ron.jpg"
     },
     {
       quote: "This is a section of some simple filler text, also known as placeholder text.",
