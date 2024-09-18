@@ -5,13 +5,14 @@ import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = () => {
   return (
+    <div className="pt-20"> {/* Top margin applied here */}
     <footer className="bg-white">
       <div className="bg-indigo-600 py-6">
         <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
           <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <div className="mb-3 text-center md:mb-0 md:text-left">
-              <span className="font-bold uppercase tracking-widest text-gray-100">Newsletter</span>
-              <p className="text-indigo-200">Subscribe to our newsletter</p>
+              <span className="font-bold uppercase tracking-widest text-gray-100">Updates</span>
+              <p className="text-indigo-200">Get notified of major updates and new free tools I launch.</p>
             </div>
 
             <form className="flex w-full gap-2 md:max-w-md">
@@ -35,7 +36,7 @@ const Footer = () => {
               </div>
               {/* logo - end */}
 
-              <p className="mb-6 text-gray-500 sm:pr-8">Generate and customize QR codes quickly and easily with our intuitive tool. Perfect for businesses and individuals alike.</p>
+              <p className="mb-6 text-gray-500 sm:pr-8">Generate and customize QR codes quickly and easily. Check me out on socials:</p>
 
               {/* social - start */}
               <div className="flex gap-4">
@@ -58,7 +59,20 @@ const Footer = () => {
 
             {/* nav - start */}
             <div>
-              <div className="mb-4 font-bold uppercase tracking-widest text-gray-800">Products</div>
+              <div className="mb-4 font-bold uppercase tracking-widest text-gray-800">Llama</div>
+              <nav className="flex flex-col gap-4">
+                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Link QR Code</Link></div>
+                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Email Qr Code</Link></div>
+                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">SMS QR Code</Link></div>
+                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Call Qr Code</Link></div>
+                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Wifi QR Code</Link></div>
+              </nav>
+            </div>
+            {/* nav - end */}
+
+            {/* nav - start */}
+            <div>
+              <div className="mb-4 font-bold uppercase tracking-widest text-gray-800">Tools</div>
               <nav className="flex flex-col gap-4">
                 <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Color Picker</Link></div>
                 <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">.WebP Zip</Link></div>
@@ -68,32 +82,18 @@ const Footer = () => {
 
             {/* nav - start */}
             <div>
-              <div className="mb-4 font-bold uppercase tracking-widest text-gray-800">Llama</div>
-              <nav className="flex flex-col gap-4">
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">About</Link></div>
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Blog</Link></div>
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Pricing Comparison</Link></div>
-              </nav>
-            </div>
-            {/* nav - end */}
-
-            {/* nav - start */}
-            <div>
               <div className="mb-4 font-bold uppercase tracking-widest text-gray-800">Support</div>
               <nav className="flex flex-col gap-4">
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Contact</Link></div>
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">FAQ</Link></div>
+                <div><Link href="https://x.com/QRCodeLlama" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">@QrCodeLlama</Link></div>
               </nav>
             </div>
             {/* nav - end */}
 
             {/* nav - start */}
             <div>
-              <div className="mb-4 font-bold uppercase tracking-widest text-gray-800">Legal</div>
+              <div className="mb-4 font-bold uppercase tracking-widest text-gray-800">TOS</div>
               <nav className="flex flex-col gap-4">
                 <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Terms of Service</Link></div>
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Privacy Policy</Link></div>
-                <div><Link href="#" className="text-gray-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Cookie settings</Link></div>
               </nav>
             </div>
             {/* nav - end */}
@@ -103,6 +103,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+    </div>
   );
 };
 

@@ -4,9 +4,9 @@ import Image from 'next/image';
 const Testimonials = () => {
   const testimonials = [
     {
-      quote: "This is a section of some simple filler text, also known as placeholder text.",
-      name: "John McCulling",
-      role: "CEO / Datadrift",
+      quote: "No Ads and No Email. Just a free QR Code Generator. What more could you want?",
+      name: "Dr. Milly Barker",
+      role: "Tech Founder",
       image: "/images/milly.jpg"
     },
     {
@@ -27,7 +27,7 @@ const Testimonials = () => {
     <div className="bg-white py-6 sm:py-8 lg:py-12">
       <div className="mx-auto max-w-screen-xl px-4 md:px-8">
         <h2 className="mb-8 text-center text-2xl font-bold text-gray-800 md:mb-12 lg:text-3xl">
-          What others say about us
+          People are talking about the Llama
         </h2>
 
         <div className="grid gap-y-10 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-3 lg:divide-x">
@@ -45,7 +45,7 @@ const Testimonials = () => {
                   />
                 </div>
                 <div>
-                  <div className="text-center text-sm font-bold text-indigo-500 sm:text-left md:text-base">
+                  <div className="text-center text-sm font-bold text-indigo-600 sm:text-left md:text-base">
                     {testimonial.name}
                   </div>
                   <p className="text-center text-sm text-gray-500 sm:text-left md:text-sm">

@@ -2,45 +2,52 @@ import Link from 'next/link';
 
 const Features = () => {
   return (
-    <div className="bg-white py-6 sm:py-8 lg:py-12">
+    <div className="bg-white my-20 py-6 sm:py-8 lg:py-12">
       <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
         <div className="mb-10 md:mb-16">
-          <h2 className="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">Why Choose QR Code Llama?</h2>
+          <h2 className="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">QR Code Types We Offer</h2>
           <p className="mx-auto max-w-screen-md text-center text-gray-500 md:text-lg">
-            Our QR code generator offers unique features and benefits that set us apart. Here is why you should choose QR Code Llama for all your QR code needs.
+            Explore our range of QR code generators, each designed for specific purposes to meet your needs.
           </p>
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 md:gap-12 xl:grid-cols-3 xl:gap-16">
           <FeatureItem
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>}
+            title="QR Code Link"
+            description="Generate QR codes for any URL. Perfect for directing users to websites, landing pages, or online resources."
+            link="/qr-code-generator"
+          />
+          <FeatureItem
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>}
+            title="Email QR Code"
+            description="Create QR codes that open a new email with pre-filled recipient, subject, and body. Great for easy contact or feedback collection."
+            link="/email-qr-code-generator"
+          />
+          <FeatureItem
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>}
+            title="Text Message QR Code"
+            description="Generate QR codes that open a new text message with a pre-filled number and message. Ideal for easy SMS communication."
+            link="/free-text-message-qr-code-generator"
+          />
+          <FeatureItem
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>}
+            title="Phone Call QR Code"
+            description="Create QR codes that initiate phone calls when scanned. Perfect for customer support or quick contact information."
+            link="/phone-call-qr-generator"
+          />
+          <FeatureItem
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" /></svg>}
+            title="WiFi QR Code"
+            description="Generate QR codes that allow easy connection to WiFi networks. Simplify guest access to your network."
+            link="/wifi-qr-code-generator"
+          />
+          <FeatureItem
             icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
-            title="100% Free"
-            description="Generate unlimited QR codes without any cost. Our service is completely free, forever."
-          />
-          <FeatureItem
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>}
-            title="No Sign-up Required"
-            description="Start creating QR codes instantly without the need to create an account or provide any personal information."
-          />
-          <FeatureItem
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>}
-            title="Customization"
-            description="Personalize your QR codes with custom colors, logos, and designs to match your brand or preferences."
-          />
-          <FeatureItem
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>}
-            title="High-Quality Codes"
-            description="Our QR codes are generated in high resolution, ensuring they scan perfectly every time, even when printed."
-          />
-          <FeatureItem
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>}
-            title="Easy to Use"
-            description="Our intuitive interface makes creating QR codes a breeze, even for those with no technical experience."
-          />
-          <FeatureItem
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>}
-            title="Multiple QR Types"
-            description="Create various types of QR codes including URL, text, email, phone, SMS, and more to suit your needs."
+            title="Bitcoin Payment QR Code"
+            description="Create QR codes for Bitcoin payments. Streamline cryptocurrency transactions for your business or personal use."
+            link="#"
+            comingSoon={true}
           />
         </div>
       </div>
@@ -48,16 +55,20 @@ const Features = () => {
   );
 };
 
-const FeatureItem = ({ icon, title, description }) => {
+const FeatureItem = ({ icon, title, description, link, comingSoon }) => {
   return (
     <div className="flex gap-4 md:gap-6">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-indigo-500 text-white shadow-lg md:h-14 md:w-14 md:rounded-xl">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-lg md:h-14 md:w-14 md:rounded-xl">
         {icon}
       </div>
       <div>
         <h3 className="mb-2 text-lg font-semibold md:text-xl">{title}</h3>
         <p className="mb-2 text-gray-500">{description}</p>
-        <Link href="#" className="font-bold text-indigo-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">Learn More</Link>
+        {comingSoon ? (
+          <span className="font-bold text-gray-400 cursor-not-allowed">Coming Soon</span>
+        ) : (
+          <Link href={link} className="font-bold text-indigo-600 transition duration-100 hover:text-indigo-600 active:text-indigo-600">Try it now</Link>
+        )}
       </div>
     </div>
   );
