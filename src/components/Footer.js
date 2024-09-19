@@ -36,7 +36,7 @@ const Footer = () => {
               </div>
               {/* logo - end */}
 
-              <p className="mb-6 text-gray-500 sm:pr-8">Generate and customize QR codes quickly and easily. Check me out on socials:</p>
+              <p className="mb-6 text-gray-500 sm:pr-8">Generate and customize QR codes quickly and easily. This code and a quick tutorial are available on Github. Check me out on the following socials:</p>
 
               {/* social - start */}
               <div className="flex gap-4">
