@@ -49,7 +49,7 @@ const Footer = () => {
                   <a href="https://www.linkedin.com/in/will-gordon1/" target="_blank" rel="noopener noreferrer">
                     <FaLinkedin className="text-xl text-gray-600 hover:text-blue-600" />
                   </a>
-                  <a href="https://github.com/wcgordon1/color-picker" target="_blank" rel="noopener noreferrer">
+                  <a href="https://github.com/wcgordon1/qr-code-gen" target="_blank" rel="noopener noreferrer">
                     <FaGithub className="text-xl text-gray-600 hover:text-gray-800" />
                   </a>
                 </div>
