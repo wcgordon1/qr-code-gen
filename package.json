@@ -1,33 +1,56 @@
 {
-  "name": "qr-code",
-  "version": "0.1.0",
+  "name": "qr-code-llama-template",
+  "version": "1.0.0",
+  "description": "An open-source React starter for customizable, client-side QR code generators.",
+  "type": "module",
   "private": true,
+  "license": "MIT",
+  "author": "Will Gordon",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wcgordon1/qr-code-gen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wcgordon1/qr-code-gen/issues"
+  },
+  "homepage": "https://qrcodellama.com",
+  "keywords": [
+    "qr-code",
+    "react",
+    "vite",
+    "tailwindcss",
+    "template"
+  ],
+  "engines": {
+    "node": ">=22.22.0",
+    "npm": ">=10"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "start": "vite preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "node --test",
+    "check": "npm run lint && npm run test && npm run build"
   },
   "dependencies": {
-    "file-saver": "^2.0.5",
     "qr-code-styling": "^1.6.0-rc.1",
-    "react": "^18",
-    "react-color": "^2.19.3",
-    "react-dom": "^18",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.3.0",
-    "react-toastify": "^10.0.5",
-    "react-router-dom": "^6.26.2",
-    "sitemap": "^8.0.0"
+    "react-router": "^8.3.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.5.2",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.1.0",
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "eslint": "^10.8.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.8.0",
     "postcss": "^8",
-    "vite": "^5.4.19",
-    "eslint": "^8",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.1.5"
   }
 }

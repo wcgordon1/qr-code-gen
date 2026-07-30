@@ -1,32 +1,31 @@
-import { useEffect } from "react";
-import Header from "../components/Header";
-import Hero from "../components/Hero";
-import Testimonials from "../components/Testimonials";
-import Features from "../components/Features";
-import Team from "../components/Team";
-import Faq from "../components/Faq";
-import Footer from "../components/Footer";
+import FaqSection from "../components/home/FaqSection.jsx";
+import HeroSection from "../components/home/HeroSection.jsx";
+import QrCodeTypesSection from "../components/home/QrCodeTypesSection.jsx";
+import TeamSection from "../components/home/TeamSection.jsx";
+import TestimonialsSection from "../components/home/TestimonialsSection.jsx";
+import SiteFooter from "../components/layout/SiteFooter.jsx";
+import SiteHeader from "../components/layout/SiteHeader.jsx";
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
 
-const HomePage = () => {
-  useEffect(() => {
-    document.title = "QR Code Llama - Free QR Code Generator";
-  }, []);
+/**
+ * Composes the marketing sections shown on the public home page.
+ *
+ * @returns {JSX.Element} The QR Code Llama home page.
+ */
+export default function HomePage() {
+  useDocumentTitle("QR Code Llama - Free QR Code Generator");
 
   return (
     <>
-      <Header />
+      <SiteHeader />
       <main>
-        <Hero />
-        <Testimonials />
-        <div id="features">
-          <Features />
-        </div>
-        <Team />
-        <Faq />
+        <HeroSection />
+        <TestimonialsSection />
+        <QrCodeTypesSection />
+        <TeamSection />
+        <FaqSection />
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
-};
-
-export default HomePage;
+}

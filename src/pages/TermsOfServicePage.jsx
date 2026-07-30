@@ -1,15 +1,18 @@
-import { useEffect } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import SiteFooter from "../components/layout/SiteFooter.jsx";
+import SiteHeader from "../components/layout/SiteHeader.jsx";
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
 
-const TermsOfServicePage = () => {
-  useEffect(() => {
-    document.title = "Terms of Service | QR Code Llama";
-  }, []);
+/**
+ * Explains the responsibilities attached to using generated QR codes.
+ *
+ * @returns {JSX.Element} The terms of service page.
+ */
+export default function TermsOfServicePage() {
+  useDocumentTitle("Terms of Service | QR Code Llama");
 
   return (
     <>
-      <Header />
+      <SiteHeader />
       <main className="mx-auto max-w-screen-xl px-4 py-12 md:px-8">
         <h1 className="mb-6 text-3xl font-bold text-black sm:text-4xl md:text-5xl">
           Terms of Service
@@ -27,9 +30,7 @@ const TermsOfServicePage = () => {
           you use them.
         </p>
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
-};
-
-export default TermsOfServicePage;
+}

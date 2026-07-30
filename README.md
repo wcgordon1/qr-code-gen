@@ -1,210 +1,217 @@
-This is a React + Vite QR code generator app.
+# QR Code Llama
 
-## Domain/deployment note
+An open-source React starter for building customizable QR code tools. It ships
+with generators for links or plain text, email, text messages, phone calls, and
+Wi-Fi networks. Everything runs in the browser; generated QR data is not sent
+to an application server.
 
-DNS and nameservers are now managed in Cloudflare for `qrcodellama.com`
-(canonical domain: `https://qrcodellama.com`).
+[Project website](https://qrcodellama.com) ·
+[Report a bug](https://github.com/wcgordon1/qr-code-gen/issues) ·
+[View the source](https://github.com/wcgordon1/qr-code-gen)
 
-Current stack:
+## Features
 
-- Framework: React + Vite
-- Router: React Router
-- Hosting: Cloudflare DNS + Cloudflare Pages
+- Five client-side QR generator types
+- Square, rounded, and dot module styles
+- Foreground and background color controls
+- A 7:1 contrast warning to help preserve scannability
+- PNG, JPEG, WebP, and SVG downloads
+- Responsive components with accessible labels and keyboard controls
+- Lazy-loaded routes and Cloudflare Pages SPA support
+- Optional Microsoft Clarity analytics through an environment variable
+- Zero known dependency vulnerabilities as checked on July 30, 2026
 
-For Cloudflare Pages deployment:
+## Quick start
 
-- Build command: `npm run build`
-- Output directory: `dist`
-- Framework preset: **React**
+### Requirements
 
-If you deploy with Wrangler:
+- Node.js 22.22.0 or newer
+- npm 10 or newer
+
+The included `.nvmrc` selects the tested Node.js version when you use
+[nvm](https://github.com/nvm-sh/nvm). nvm is optional if a compatible Node.js
+version is already installed.
+
+### Install and run
 
 ```bash
-npm run build
-npx wrangler pages deploy dist --project-name qr-code-llama
+git clone https://github.com/wcgordon1/qr-code-gen.git
+cd qr-code-gen
+npm ci
+npm run dev
 ```
 
-## Getting Started
+Run `nvm use` before `npm ci` when nvm is installed. The environment file is
+also optional; copy `.env.example` to `.env.local` only when configuring
+analytics. Open the local URL printed by Vite.
 
-https://vitejs.dev/guide/
+To start your own project today, fork the repository. The repository owner can
+also enable template-repository mode in GitHub settings to expose a **Use this
+template** button. Then replace the branding, content, links, and images listed
+under [Customize the template](#customize-the-template).
 
-If you use React Router for deep links on Cloudflare Pages, keep the SPA fallback in place:
+## Available scripts
 
-- `/* /index.html 200`
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Starts the Vite development server. |
+| `npm run build` | Creates the production site in `dist/`. |
+| `npm run preview` | Serves an existing production build locally. |
+| `npm start` | Alias for `npm run preview`; run the build first. |
+| `npm run lint` | Checks all JavaScript and JSX with ESLint. |
+| `npm run test` | Runs payload and contrast tests with Node.js. |
+| `npm run check` | Runs lint, tests, and the production build together. |
 
-This is handled in `public/_redirects`.
+## Project structure
 
-Optional hardening:
+```text
+.
+├── src/
+│   ├── components/
+│   │   ├── home/          Home page sections and editable marketing content
+│   │   ├── layout/        Shared header, footer, and terms notice
+│   │   ├── navigation/    Cross-route navigation behavior
+│   │   └── qr-code/       Generator fields, controls, preview, and downloads
+│   ├── config/
+│   │   └── generatorConfig.js   Routes, labels, validation, and defaults
+│   ├── hooks/
+│   │   ├── useDocumentTitle.js  Browser title synchronization
+│   │   └── useQrCode.js         Rendering, appearance, and export lifecycle
+│   ├── pages/             Route-level page composition
+│   ├── utils/
+│   │   ├── analytics.js         Optional Microsoft Clarity loader
+│   │   ├── colorContrast.js     Contrast calculations
+│   │   └── qrCodePayloads.js    Generator payload builders
+│   ├── App.jsx            Router and lazy page configuration
+│   ├── index.css          Tailwind CSS and global styles
+│   └── main.jsx           React application entry point
+└── test/                  Payload and contrast unit tests
+```
 
-- Security headers: `public/_headers`
-- Route fallback sanity check: keep direct deep links like `/wifi-qr-code-generator` working in production.
+The design deliberately separates three concerns:
 
-## Special Thanks
+1. `generatorConfig.js` describes what each generator is called and how it is
+   validated.
+2. `GeneratorFields.jsx` renders only the fields unique to a generator.
+3. `qrCodePayloads.js` converts those values into data that a QR scanner can
+   interpret.
 
-### UI Component Library can be found here:
-https://flowrift.com/
-- Uses TailwindCSS
+The shared `QrCodeGenerator` component handles everything else.
 
-# Prompt
-- ChatGPT: https://chatgpt.com
-- Cursor: https://cursor.com
+## Customize the template
 
-### Structuring the App for Customization
+### Branding and metadata
 
-### 1. **State Management Strategy**:
+Update these files before deploying a fork:
 
-- Use a global state management library like **React’s Context API** or **Redux** to keep track of all the customization options the user selects (e.g., colors, shapes, size).
-- Each customization option (e.g., color, shape, size, eye shape) should be managed with its own piece of state. You can use **React hooks (`useState`)** for simplicity or **useReducer** if the app becomes more complex.
+| What to change | File |
+| --- | --- |
+| Package name, repository, author, and homepage | `package.json` |
+| Page title, description, canonical URL, and social cards | `index.html` |
+| App name, icons, theme color, and install metadata | `public/site.webmanifest` |
+| Logo and illustration assets | `public/images/` |
+| Header identity | `src/components/layout/SiteHeader.jsx` |
+| Footer links and social profiles | `src/components/layout/SiteFooter.jsx` |
+| Home page copy and sample content | `src/components/home/` |
+| Terms for your deployment | `src/pages/TermsOfServicePage.jsx` |
 
-Example state management:
+The included testimonials and team entries are demonstration content. Replace
+them before using this repository for another brand.
 
-- `foregroundColor`
-- `backgroundColor`
-- `shape`
-- `eyeShape`
-- `size`
-- `downloadFormat`
+### Generator behavior
 
-### 2. **User Interface Design**:
+- Edit routes, headings, validation messages, initial form values, and file
+  names in `src/config/generatorConfig.js`.
+- Edit form controls in `src/components/qr-code/GeneratorFields.jsx`.
+- Edit encoded output in `src/utils/qrCodePayloads.js`.
+- Edit the available QR shapes and appearance controls in
+  `src/components/qr-code/QrCodeStyleControls.jsx`.
+- Edit export formats in `src/components/qr-code/QrCodePreview.jsx`.
+- Edit the recommended contrast threshold in
+  `src/utils/colorContrast.js`.
 
-- **Color Picker**:
-    - Provide two color pickers (using a package like `react-color`) to let users select the foreground and background colors of the QR code.
-- **Shape Selectors**:
-    - Use radio buttons, dropdowns, or a visual grid with preview icons to allow users to select the block shape and eye shape. Show a real-time preview as users switch between these options.
-- **Download Options**:
-    - Display a dropdown or radio buttons for users to select the desired file format (PNG, SVG, PDF) for downloading.
+The link generator encodes its input exactly as entered and can therefore also
+create plain-text QR codes. Include a URL scheme such as `https://` when a
+scanner should reliably recognize the payload as a clickable link.
 
-### 3. **Live QR Code Preview**:
+### Optional analytics
 
-- As users make changes (color, shape, etc.), provide a **real-time preview** of the QR code that reflects their choices. This can be updated by listening to the state changes and re-rendering the QR code accordingly.
-- Place the preview prominently, possibly with a larger version of the code that scales as users change size and color.
+Analytics are disabled by default. To load Microsoft Clarity, create
+`.env.local` and add your own project ID:
 
-### 4. **Accessibility**:
+```dotenv
+VITE_CLARITY_PROJECT_ID=your-project-id
+```
 
-- Provide contrast warnings if users pick a foreground and background color that might be difficult to scan. You could show an alert or warning icon, prompting users to choose more contrasting colors.
+Do not commit `.env.local`. Vite exposes variables beginning with `VITE_` to
+browser code, so never put a secret in one.
 
-### 5. **Customization Tabs**:
+## Add another generator
 
-- To keep the interface clean, divide the customization options into sections/tabs like:
-    - **Color**
-    - **Shape**
-    - **Eye Shape**
-    - **Size**
-    - **Download**
-- Users can navigate through each tab to customize their QR code step by step.
+1. Add a type and configuration entry in `src/config/generatorConfig.js`, and
+   import its payload builder there.
+2. Add the new form fields and switch case in
+   `src/components/qr-code/GeneratorFields.jsx`.
+3. Add and export a focused payload builder from
+   `src/utils/qrCodePayloads.js`.
+4. Add the generator card to
+   `src/components/home/QrCodeTypesSection.jsx`. Extend `QrCodeTypeIcon` in the
+   same file when the generator needs a distinct icon.
+5. Run `npm run check` and manually scan the result on more than one device.
 
----
+The router reads generator routes directly from the configuration, so a
+separate page component is not required.
 
-### Best Practices for Structuring the Options:
+## Deployment
 
-1. **Group related options** (e.g., colors in one section, shapes in another) to make the UI more intuitive.
-2. **Show visual previews** of each option (especially for shapes and eye styles) to make it easy for users to see the effect of their changes in real time.
-3. **Include a reset button** to allow users to start over with default QR code settings.
+The project builds to a static `dist/` directory and can be hosted by any
+static-site provider.
 
-### **`react-color`**: A simple color picker component for users to select colors for their QR code.
+### Cloudflare Pages
 
-React-Color Works:
+- Framework preset: **React (Vite)**
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Node.js version: `22.22.0` or newer
 
-1. **State Management**:
-    - `color`: Manages the selected color.
-    - `displayColorPicker`: Toggles the visibility of the color picker.
-2. **ChromePicker**:
-    - Renders a color picker UI from `react-color` when `displayColorPicker` is true.
-3. **Color Change**:
-    - The `handleColorChange` function updates the selected color when the user selects a new one.
+`public/_redirects` provides the single-page application fallback required for
+direct visits to generator routes. `public/_headers` includes a small set of
+security headers and long-lived caching for generated assets.
 
-**`file-saver`**: For saving files (if needed for custom file download handling).
+If analytics are enabled, add `VITE_CLARITY_PROJECT_ID` to the production
+environment variables in the Cloudflare Pages project settings. Whether
+analytics requires notice or consent depends on your users and jurisdiction;
+configure it only after reviewing those requirements.
 
-QR code to be downloaded as (e.g., `png`, `svg`, or `pdf`). Only if all of these are readily available, if not, let’s go with the easiest options.
+For other hosts, configure all unknown routes to serve `index.html`.
 
-### Important:
+## Privacy and QR safety
 
-When the user makes a change to the qr code color or anything related to the qr-code-styling (except for logo), we will automatically show a live preview of their new logo. First, a spinning icon for 500 milliseconds and then the new QR code.
+QR payloads are generated in the browser. This repository does not include an
+API or persistence layer. Optional third-party analytics can still collect
+usage information when configured, so describe that accurately in your own
+privacy policy.
 
-1. **State Management**: Use `useState` to manage color and data inputs.
-2. **Live Preview**: Update the QR code preview in real-time with the `useEffect` hook and `QRCodePreview` component.
-3. **Final Generation**: Generate and download the QR code only when the 'Create' button is pressed using the `downloadQRCode` function.
+A generated QR code should always be tested with multiple scanners before it
+is printed or published. Keep strong foreground/background contrast, leave
+adequate quiet space around the code, and verify the final exported file—not
+only the on-screen preview.
 
-## Key Considerations:
+## Contributing
 
-### 1. **Checking Contrast Between QR Code and Background**
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md), open an
+issue for substantial changes, and run `npm run check` before submitting a pull
+request.
 
-When users select a **foreground color** (for the QR code) and a **background color**, ensuring the contrast between these two is important to maintain scannability.
+## License
 
-### **How Contrast Works**:
+Source code is available under the [MIT License](LICENSE). Brand names,
+personal photographs, and third-party image rights are not automatically
+granted by the software license. Review [ASSET-LICENSES.md](ASSET-LICENSES.md)
+and replace those assets when using this as a new brand.
 
-- The key is the **difference in luminance** between the foreground and background colors. If the difference is too small, the QR code may blend into the background, making it hard to scan.
-- **WCAG (Web Content Accessibility Guidelines)** provides a way to calculate contrast ratios between colors. The recommended contrast ratio for text readability is **4.5:1**. However, for QR codes, higher contrast (7:1 or more) is safer.
+## Acknowledgments
 
-### **Steps to Check Contrast**:
-
-1. **Get the RGB values** of both the **foreground** (QR code) and **background** colors selected by the user.
-2. **Convert RGB to relative luminance** using this formula:where R, G, and B are the RGB values normalized to a 0–1 range.
-    
-    ```
-    plaintext
-    Copy code
-    L = 0.2126 * R + 0.7152 * G + 0.0722 * B
-    
-    ```
-    
-3. **Calculate the contrast ratio** between the foreground and background:where:
-    
-    ```
-    plaintext
-    Copy code
-    contrast_ratio = (L1 + 0.05) / (L2 + 0.05)
-    
-    ```
-    
-    - `L1` is the luminance of the lighter color
-    - `L2` is the luminance of the darker color.
-4. **Evaluate the ratio**: Keep the ratio 7:1.  alert the user that the contrast might be too low for scannability.
-
-### **How to Implement in Your App**:
-
-- **Real-time Feedback**: When users select a foreground or background color using your color picker, you could instantly calculate the contrast ratio and display a warning message if it’s too low.
-- **UI Suggestion**: You could show a message like “The contrast is too low. Please pick a more contrasting background/foreground color for better QR code visibility.”
-    - I would like this in a toast notification (client side, we are not using the server).
-
-### **Visual Feedback**:
-
-- Use a **dynamic indicator** (such as a color bar or percentage) to help users understand the quality of the contrast as they pick colors.
-
----
-
-### 2. **Using a Transparent Background to Avoid Contrast Checking**
-
-If you allow users to choose a **transparent background** for the QR code, you eliminate the need to check contrast between the QR code and the background, since it will simply blend with whatever surface it’s placed on. This is a great option to avoid potential readability issues with the QR code.
-
-### **How Transparency Affects Scannability**:
-
-QR code scanners primarily rely on **contrast** between the black or colored QR blocks and the background. If the background is transparent, the QR code will depend entirely on the surface it’s being displayed on. In most cases, users would be placing the QR code on a white or neutral background, which should provide sufficient contrast.
-
-### **How to Implement a Transparent Background**:
-
-1. **Allow users to select transparency** as an option in the background color picker.
-    - When the user picks a color for the background, include an option like a **“Transparent”** checkbox.
-    - If the checkbox is selected, the QR code background becomes transparent, and there’s no need to check the contrast between the background and foreground.
-2. **QR Code Styling**: If using a package like `qr-code-styling`, you can set the background color to `null` or an alpha value (`rgba(255, 255, 255, 0)` for full transparency).
-
-### **Visual Feedback for Transparency**:
-
-- In the preview, show a **checkered pattern** (like in image editors) to indicate the QR code will be transparent. This gives the user a clear understanding of how the QR code will look when placed on a surface.
-
----
-
-### **High-Level Workflow**:
-
-### **1. Initial Color Selection**:
-
-- User selects foreground (QR code) and background colors.
-- If they select a **non-transparent** background, the app automatically checks contrast between the foreground and background.
-- If contrast is too low, provide real-time feedback suggesting they change the color.
-
-### **2. Transparent Background Option**:
-
-- Provide a checkbox or toggle to select a transparent background.
-- If transparent is selected, disable contrast checking and display the QR code on a checkered background in the preview.
-
-
+- QR rendering: [qr-code-styling](https://github.com/kozakdenys/qr-code-styling)
+- UI utilities: [Tailwind CSS](https://tailwindcss.com)
+- Original UI inspiration: [Flowrift](https://flowrift.com)

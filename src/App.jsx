@@ -1,40 +1,25 @@
 import { lazy, Suspense, useEffect } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
-const HomePage = lazy(() => import("./pages/HomePage"));
-const QRCodeGeneratorPage = lazy(() => import("./pages/QRCodeGeneratorPage"));
-const EmailQRGeneratorPage = lazy(() => import("./pages/EmailQRGeneratorPage"));
-const TextMessageQRGeneratorPage = lazy(
-  () => import("./pages/TextMessageQRGeneratorPage")
+import { GENERATOR_ROUTES } from "./config/generatorConfig.js";
+import { loadMicrosoftClarity } from "./utils/analytics.js";
+
+const HomePage = lazy(() => import("./pages/HomePage.jsx"));
+const QrCodeGeneratorPage = lazy(
+  () => import("./pages/GeneratorPage.jsx"),
 );
-const PhoneCallQRGeneratorPage = lazy(
-  () => import("./pages/PhoneCallQRGeneratorPage")
+const TermsOfServicePage = lazy(
+  () => import("./pages/TermsOfServicePage.jsx"),
 );
-const WifiQRGeneratorPage = lazy(() => import("./pages/WifiQRGeneratorPage"));
-const TermsOfServicePage = lazy(() => import("./pages/TermsOfServicePage"));
 
-const injectClarity = () => {
-  const scriptId = "microsoft-clarity";
-  if (document.getElementById(scriptId)) return;
-
-  const script = document.createElement("script");
-  script.id = scriptId;
-  script.innerHTML = `
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);
-      t.async=1;
-      t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];
-      y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "o596utu2ie");
-  `;
-  document.body.appendChild(script);
-};
-
-const App = () => {
+/**
+ * Configures analytics, routing, and lazy page loading for the application.
+ *
+ * @returns {JSX.Element} The complete client-side application.
+ */
+export default function App() {
   useEffect(() => {
-    injectClarity();
+    loadMicrosoftClarity(import.meta.env.VITE_CLARITY_PROJECT_ID);
   }, []);
 
   return (
@@ -42,26 +27,17 @@ const App = () => {
       <Suspense fallback={<div className="p-6">Loading...</div>}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/qr-code-generator" element={<QRCodeGeneratorPage />} />
-          <Route
-            path="/email-qr-code-generator"
-            element={<EmailQRGeneratorPage />}
-          />
-          <Route
-            path="/free-text-message-qr-code-generator"
-            element={<TextMessageQRGeneratorPage />}
-          />
-          <Route
-            path="/phone-call-qr-generator"
-            element={<PhoneCallQRGeneratorPage />}
-          />
-          <Route path="/wifi-qr-code-generator" element={<WifiQRGeneratorPage />} />
+          {GENERATOR_ROUTES.map((generator) => (
+            <Route
+              key={generator.path}
+              path={generator.path}
+              element={<QrCodeGeneratorPage generatorType={generator.type} />}
+            />
+          ))}
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
   );
-};
-
-export default App;
+}
