@@ -12,7 +12,6 @@ export default function QrCodeStyleControls({
   backgroundColor,
   dotColor,
   dotStyle,
-  hasContrastWarning,
   onBackgroundColorChange,
   onDotColorChange,
   onDotStyleChange,
@@ -56,14 +55,6 @@ export default function QrCodeStyleControls({
           onChange={onBackgroundColorChange}
         />
       </fieldset>
-
-      {hasContrastWarning && (
-        <p className="text-sm text-red-500" role="status">
-          The contrast between QR code and background colors may be too low for
-          optimal scanning. Proceed with caution and triple check your QR code
-          before going live.
-        </p>
-      )}
     </>
   );
 }

@@ -20,27 +20,35 @@ const DOWNLOAD_FORMATS = [
  * @returns {JSX.Element} The QR preview panel.
  */
 export default function QrCodePreview({
+  hasContrastWarning,
   isGenerated,
   onDownload,
   previewRef,
 }) {
   return (
-    <div className="flex flex-col items-center md:w-1/2">
+    <div className="order-1 flex flex-col items-center md:order-2 md:w-1/2">
+      {hasContrastWarning && (
+        <p
+          className="mb-3 w-full max-w-[320px] rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          role="status"
+        >
+          The contrast between QR code and background colors may be too low for
+          optimal scanning. Proceed with caution and triple check your QR code
+          before going live.
+        </p>
+      )}
+
       <div className="relative aspect-square w-full max-w-[320px] overflow-hidden rounded-lg bg-gray-100 shadow-lg">
-        {isGenerated ? (
-          <div
-            ref={previewRef}
-            className="absolute inset-0 flex items-center justify-center [&>canvas]:h-full [&>canvas]:w-full [&>canvas]:object-contain"
-            aria-label="Generated QR code preview"
-            role="img"
-          />
-        ) : (
-          <img
-            src="/images/qr.png"
-            alt="Sample QR code placeholder"
-            className="h-full w-full object-contain"
-          />
-        )}
+        <div
+          ref={previewRef}
+          className="absolute inset-0 flex items-center justify-center [&>svg]:h-full [&>svg]:w-full"
+          aria-label={
+            isGenerated
+              ? "Generated QR code preview"
+              : "Sample QR code preview"
+          }
+          role="img"
+        />
       </div>
 
       {isGenerated && (

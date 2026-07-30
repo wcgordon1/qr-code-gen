@@ -102,7 +102,7 @@ export default function QrCodeGenerator({ config }) {
   return (
     <>
       <div className="flex flex-col gap-8 md:flex-row md:items-start">
-        <div className="flex flex-col justify-center md:w-1/2">
+        <div className="order-2 flex flex-col justify-center md:order-1 md:w-1/2">
           <form onSubmit={handleSubmit} className="mb-4 flex flex-col gap-4">
             <GeneratorFields
               generatorType={config.type}
@@ -119,7 +119,6 @@ export default function QrCodeGenerator({ config }) {
               backgroundColor={backgroundColor}
               dotColor={dotColor}
               dotStyle={dotStyle}
-              hasContrastWarning={hasContrastWarning}
               onBackgroundColorChange={setBackgroundColor}
               onDotColorChange={setDotColor}
               onDotStyleChange={setDotStyle}
@@ -128,6 +127,7 @@ export default function QrCodeGenerator({ config }) {
         </div>
 
         <QrCodePreview
+          hasContrastWarning={hasContrastWarning}
           isGenerated={isGenerated}
           onDownload={handleDownload}
           previewRef={previewRef}

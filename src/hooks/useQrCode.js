@@ -5,6 +5,30 @@ import { hasLowQrCodeContrast } from "../utils/colorContrast.js";
 
 const DEFAULT_DOT_COLOR = "#000000";
 const DEFAULT_BACKGROUND_COLOR = "#ffffff";
+const DEFAULT_PREVIEW_PAYLOAD = "https://qrcodellama.com";
+
+/**
+ * Adds the missing SVG viewport metadata so the 1000px QR scales to its panel.
+ *
+ * @param {HTMLElement} previewElement - The element containing the QR SVG.
+ * @returns {void}
+ */
+function makePreviewSvgResponsive(previewElement) {
+  const svgElement = previewElement.querySelector("svg");
+
+  if (!svgElement) {
+    return;
+  }
+
+  const width = svgElement.getAttribute("width");
+  const height = svgElement.getAttribute("height");
+
+  if (width && height) {
+    svgElement.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  }
+
+  svgElement.setAttribute("preserveAspectRatio", "xMidYMid meet");
+}
 
 /**
  * Owns QR rendering, appearance, preview state, and file downloads.
@@ -19,7 +43,8 @@ export function useQrCode(initialDotStyle) {
       new QRCodeStyling({
         width: 1000,
         height: 1000,
-        type: "canvas",
+        type: "svg",
+        data: DEFAULT_PREVIEW_PAYLOAD,
         dotsOptions: {
           color: DEFAULT_DOT_COLOR,
           type: initialDotStyle,
@@ -43,12 +68,33 @@ export function useQrCode(initialDotStyle) {
   );
 
   useEffect(() => {
-    if (!isGenerated || !previewRef.current) {
+    const previewElement = previewRef.current;
+
+    if (!previewElement) {
       return;
     }
 
+    const previewObserver = new MutationObserver(() => {
+      makePreviewSvgResponsive(previewElement);
+    });
+
+    previewObserver.observe(previewElement, {
+      childList: true,
+      subtree: true,
+    });
+
+    qrCode.append(previewElement);
+    makePreviewSvgResponsive(previewElement);
+
+    return () => {
+      previewObserver.disconnect();
+      previewElement.replaceChildren();
+    };
+  }, [qrCode]);
+
+  useEffect(() => {
     qrCode.update({
-      data: generatedPayload,
+      data: generatedPayload || DEFAULT_PREVIEW_PAYLOAD,
       dotsOptions: {
         color: dotColor,
         type: dotStyle,
@@ -57,13 +103,11 @@ export function useQrCode(initialDotStyle) {
         color: backgroundColor,
       },
     });
-    qrCode.append(previewRef.current);
   }, [
     backgroundColor,
     dotColor,
     dotStyle,
     generatedPayload,
-    isGenerated,
     qrCode,
   ]);
 
