@@ -1,13 +1,12 @@
-'use client';
-
 import React, { useState, useRef, useEffect } from 'react';
 import QRCodeStyling from 'qr-code-styling';
 import { ChromePicker } from 'react-color';
-import Image from 'next/image';
 import toast, { Toaster } from 'react-hot-toast';
 
-const QRCodeGenerator = () => {
-  const [url, setUrl] = useState('');
+const EmailQRGenerator = () => {
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [body, setBody] = useState('');
   const [qrCode, setQrCode] = useState(null);
   const [dotsColor, setDotsColor] = useState('#000000');
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
@@ -15,7 +14,7 @@ const QRCodeGenerator = () => {
   const [showBgColorPicker, setShowBgColorPicker] = useState(false);
   const [isQRCodeGenerated, setIsQRCodeGenerated] = useState(false);
   const [contrastWarning, setContrastWarning] = useState(false);
-  const [qrType, setQrType] = useState('square');
+  const [qrType, setQrType] = useState('rounded');
   const qrRef = useRef(null);
   const dotsColorPickerRef = useRef(null);
   const bgColorPickerRef = useRef(null);
@@ -55,12 +54,12 @@ const QRCodeGenerator = () => {
 
   useEffect(() => {
     setIsQRCodeGenerated(false);
-  }, [url]);
+  }, [email, subject, body]);
 
   const generateQRCode = (e) => {
     e.preventDefault();
-    if (!url.trim()) {
-      toast.error('Must input a URL', {
+    if (!email.trim()) {
+      toast.error('Must input email address', {
         duration: 3000,
         position: 'top-right',
         style: {
@@ -70,16 +69,22 @@ const QRCodeGenerator = () => {
       });
       return;
     }
+    const encodedSubject = encodeURIComponent(subject);
+    const encodedBody = encodeURIComponent(body);
+    const data = `mailto:${email}?subject=${encodedSubject}&body=${encodedBody}`;
+    
+    console.log('QR Code data:', data);
+
     if (qrCode) {
       qrCode.update({
-        data: url,
+        data: data,
       });
       setIsQRCodeGenerated(false);
       setTimeout(() => {
         setIsQRCodeGenerated(true);
       }, 50);
       
-      toast.success(`QR Code for "${url}" is ready to download`, {
+      toast.success(`QR Code for email is ready to download`, {
         duration: 3000,
         position: 'top-right',
         style: {
@@ -96,7 +101,7 @@ const QRCodeGenerator = () => {
 
   const downloadQRCode = (fileType) => {
     if (qrCode) {
-      const fileName = prompt(`Enter a file name for your ${fileType.toUpperCase()} download:`, 'my-qr-code');
+      const fileName = prompt(`Enter a file name for your ${fileType.toUpperCase()} download:`, 'my-email-qr-code');
       if (fileName) {
         const canvas = qrRef.current.querySelector('canvas');
         if (canvas) {
@@ -234,12 +239,26 @@ const QRCodeGenerator = () => {
         <div className="flex flex-col justify-center md:w-1/2">
           <form onSubmit={generateQRCode} className="mb-4 flex flex-col gap-4">
             <input
-              type="text"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="Enter URL or text"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email Address"
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
             />
+            <input
+              type="text"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              placeholder="Email Subject"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
+            />
+            <textarea
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              placeholder="Email Body"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
+              rows="4"
+            ></textarea>
             <button
               type="submit"
               className="inline-block rounded-lg bg-indigo-600 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-700 focus-visible:ring active:bg-indigo-800 md:text-base"
@@ -249,6 +268,15 @@ const QRCodeGenerator = () => {
             <p className="text-black font-bold xl:text-lg">
               Type:
             </p>
+            <div className="flex justify-start space-x-4">
+            <TypeIcon 
+                type="rounded" 
+                icon={
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <rect width="18" height="18" x="3" y="3" rx="5" />
+                  </svg>
+                } 
+              />
             <div className="flex justify-start space-x-4">
               <TypeIcon 
                 type="square" 
@@ -266,14 +294,7 @@ const QRCodeGenerator = () => {
                   </svg>
                 } 
               />
-              <TypeIcon 
-                type="rounded" 
-                icon={
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <rect width="18" height="18" x="3" y="3" rx="5" />
-                  </svg>
-                } 
-              />
+              </div>
             </div>
             <p className="text-black font-bold xl:text-lg">
               Color:
@@ -298,7 +319,7 @@ const QRCodeGenerator = () => {
             </ColorButton>
             {contrastWarning && (
               <p className="text-red-500 text-sm">
-                The contrast between QR code and background colors may be too low for optimal scanning. Please choose colors with higher contrast.
+                The contrast between QR code and background colors may be too low for optimal scanning. Proceed with caution and triple check your QR code before going live.
               </p>
             )}
           </form>
@@ -310,12 +331,10 @@ const QRCodeGenerator = () => {
             className="w-full max-w-[320px] aspect-square relative bg-gray-100 rounded-lg shadow-lg overflow-hidden"
           >
             {!isQRCodeGenerated ? (
-              <Image
+              <img
                 src="/images/qr.png"
                 alt="Default QR Code"
-                layout="fill"
-                objectFit="contain"
-                priority
+                className="h-full w-full object-contain"
               />
             ) : (
               <div 
@@ -342,4 +361,4 @@ const QRCodeGenerator = () => {
   );
 };
 
-export default QRCodeGenerator;
+export default EmailQRGenerator;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 
 const CTA = () => {
   return (
@@ -11,9 +11,9 @@ const CTA = () => {
             <p className="text-gray-600">No Credit Card required</p>
           </div>
 
-          <Link href="/start-trial" className="inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base">
+            <Link to="/start-trial" className="inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base">
             Start now
-          </Link>
+            </Link>
         </div>
       </div>
     </div>

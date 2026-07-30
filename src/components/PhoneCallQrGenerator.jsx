@@ -1,15 +1,11 @@
-'use client';
-
 import React, { useState, useRef, useEffect } from 'react';
 import QRCodeStyling from 'qr-code-styling';
 import { ChromePicker } from 'react-color';
-import Image from 'next/image';
 import toast, { Toaster } from 'react-hot-toast';
 
-const TextMessageQRGenerator = () => {
+const PhoneCallQRGenerator = () => {
   const [countryCode, setCountryCode] = useState('+1');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [message, setMessage] = useState('');
   const [qrCode, setQrCode] = useState(null);
   const [dotsColor, setDotsColor] = useState('#000000');
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
@@ -57,7 +53,7 @@ const TextMessageQRGenerator = () => {
 
   useEffect(() => {
     setIsQRCodeGenerated(false);
-  }, [countryCode, phoneNumber, message]);
+  }, [countryCode, phoneNumber]);
 
   const generateQRCode = (e) => {
     e.preventDefault();
@@ -73,17 +69,22 @@ const TextMessageQRGenerator = () => {
       return;
     }
     const cleanedPhoneNumber = phoneNumber.replace(/[-()\s]/g, '');
-    const data = `sms:${countryCode}${cleanedPhoneNumber}?body=${encodeURIComponent(message)}`;
+    const cleanedCountryCode = countryCode.replace(/[+\s]/g, ''); // Remove '+' and spaces from country code
+    const data = `<a href="tel:+${cleanedCountryCode}${cleanedPhoneNumber}"></a>`;
+    
+    // Add this console.log statement
+    console.log('QR Code data:', data);
+
     if (qrCode) {
       qrCode.update({
         data: data,
       });
-      setIsQRCodeGenerated(false);  // Reset this to false
+      setIsQRCodeGenerated(false);
       setTimeout(() => {
-        setIsQRCodeGenerated(true);  // Set it back to true after a short delay
+        setIsQRCodeGenerated(true);
       }, 50);
       
-      toast.success(`QR Code for text message is ready to download`, {
+      toast.success(`QR Code for phone call is ready to download`, {
         duration: 3000,
         position: 'top-right',
         style: {
@@ -100,7 +101,7 @@ const TextMessageQRGenerator = () => {
 
   const downloadQRCode = (fileType) => {
     if (qrCode) {
-      const fileName = prompt(`Enter a file name for your ${fileType.toUpperCase()} download:`, 'my-text-message-qr-code');
+      const fileName = prompt(`Enter a file name for your ${fileType.toUpperCase()} download:`, 'my-phone-call-qr-code');
       if (fileName) {
         const canvas = qrRef.current.querySelector('canvas');
         if (canvas) {
@@ -253,13 +254,6 @@ const TextMessageQRGenerator = () => {
                 className="w-3/4 rounded-lg border border-gray-300 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
               />
             </div>
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Enter your message. Not compatible with all carriers 100% of the time."
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
-              rows="4"
-            ></textarea>
             <button
               type="submit"
               className="inline-block rounded-lg bg-indigo-600 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-700 focus-visible:ring active:bg-indigo-800 md:text-base"
@@ -270,7 +264,7 @@ const TextMessageQRGenerator = () => {
               Type:
             </p>
             <div className="flex justify-start space-x-4">
-            <TypeIcon 
+              <TypeIcon 
                 type="rounded" 
                 icon={
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -279,18 +273,18 @@ const TextMessageQRGenerator = () => {
                 } 
               />
               <TypeIcon 
-                type="square" 
-                icon={
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <rect width="18" height="18" x="3" y="3" rx="2" />
-                  </svg>
-                } 
-              />
-              <TypeIcon 
                 type="dots" 
                 icon={
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <circle cx="12" cy="12" r="8" />
+                  </svg>
+                } 
+              />
+              <TypeIcon 
+                type="square" 
+                icon={
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <rect width="18" height="18" x="3" y="3" rx="2" />
                   </svg>
                 } 
               />
@@ -330,12 +324,10 @@ const TextMessageQRGenerator = () => {
             className="w-full max-w-[320px] aspect-square relative bg-gray-100 rounded-lg shadow-lg overflow-hidden"
           >
             {!isQRCodeGenerated ? (
-              <Image
+              <img
                 src="/images/qr.png"
                 alt="Default QR Code"
-                layout="fill"
-                objectFit="contain"
-                priority
+                className="h-full w-full object-contain"
               />
             ) : (
               <div 
@@ -362,4 +354,4 @@ const TextMessageQRGenerator = () => {
   );
 };
 
-export default TextMessageQRGenerator;
+export default PhoneCallQRGenerator;

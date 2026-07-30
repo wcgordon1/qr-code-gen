@@ -1,9 +1,6 @@
-'use client';
-
 import React, { useState, useRef, useEffect } from 'react';
 import QRCodeStyling from 'qr-code-styling';
 import { ChromePicker } from 'react-color';
-import Image from 'next/image';
 import toast, { Toaster } from 'react-hot-toast';
 
 const WifiQRGenerator = () => {
@@ -376,12 +373,10 @@ const WifiQRGenerator = () => {
             className="w-full max-w-[320px] aspect-square relative bg-gray-100 rounded-lg shadow-lg overflow-hidden"
           >
             {!isQRCodeGenerated ? (
-              <Image
+              <img
                 src="/images/qr.png"
                 alt="Default QR Code"
-                layout="fill"
-                objectFit="contain"
-                priority
+                className="h-full w-full object-contain"
               />
             ) : (
               <div 

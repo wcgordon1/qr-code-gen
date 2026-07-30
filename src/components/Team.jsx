@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 
 const Team = () => {
   const teamMembers = [
@@ -19,8 +18,8 @@ const Team = () => {
         <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 lg:gap-x-8 lg:gap-y-12">
           {teamMembers.map((member, index) => (
             <div key={index}>
-              <div className="mb-2 h-48 overflow-hidden rounded-lg bg-gray-100 shadow-lg sm:mb-4 sm:h-60 md:h-80">
-                <Image src={member.image} alt={`Photo of ${member.name}`} width={500} height={500} className="h-full w-full object-cover object-center" />
+                <div className="mb-2 h-48 overflow-hidden rounded-lg bg-gray-100 shadow-lg sm:mb-4 sm:h-60 md:h-80">
+                <img src={member.image} alt={`Photo of ${member.name}`} className="h-full w-full object-cover object-center" />
               </div>
 
               <div>

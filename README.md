@@ -1,8 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a React + Vite QR code generator app.
+
+## Domain/deployment note
+
+DNS and nameservers are now managed in Cloudflare for `qrcodellama.com`
+(canonical domain: `https://qrcodellama.com`).
+
+Current stack:
+
+- Framework: React + Vite
+- Router: React Router
+- Hosting: Cloudflare DNS + Cloudflare Pages
+
+For Cloudflare Pages deployment:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+- Framework preset: **React**
+
+If you deploy with Wrangler:
+
+```bash
+npm run build
+npx wrangler pages deploy dist --project-name qr-code-llama
+```
 
 ## Getting Started
 
-https://nextjs.org/docs/
+https://vitejs.dev/guide/
+
+If you use React Router for deep links on Cloudflare Pages, keep the SPA fallback in place:
+
+- `/* /index.html 200`
+
+This is handled in `public/_redirects`.
+
+Optional hardening:
+
+- Security headers: `public/_headers`
+- Route fallback sanity check: keep direct deep links like `/wifi-qr-code-generator` working in production.
 
 ## Special Thanks
 
@@ -11,7 +46,9 @@ https://flowrift.com/
 - Uses TailwindCSS
 
 # Prompt
-- ChatGPT: wwww.chatgpt.com
+- ChatGPT: https://chatgpt.com
+- Cursor: https://cursor.com
+
 ### Structuring the App for Customization
 
 ### 1. **State Management Strategy**:
@@ -169,7 +206,5 @@ QR code scanners primarily rely on **contrast** between the black or colored QR 
 
 - Provide a checkbox or toggle to select a transparent background.
 - If transparent is selected, disable contrast checking and display the QR code on a checkered background in the preview.
-
-
 
 

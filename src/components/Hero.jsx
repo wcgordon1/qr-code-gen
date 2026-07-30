@@ -1,6 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import ScrollToFeaturesButton from './ScrollToFeaturesButton';
 
 const Hero = () => {
@@ -14,9 +13,9 @@ const Hero = () => {
             <h1 className="mb-8 text-4xl font-bold text-black sm:text-5xl md:mb-12 md:text-6xl">Free QR Code Generator</h1>
             <p className="mb-8 leading-relaxed text-gray-500 md:mb-12 lg:w-4/5 xl:text-lg">QR Code Llama is a free QR code generator that allows you to create QR codes for your website, maketing materials, and more. Always free. No Limits. No Ads. No Emails.</p>
             <div className="flex flex-col gap-2.5 sm:flex-row sm:justify-center lg:justify-start">
-              <Link href="/qr-code-generator" className="inline-block rounded-lg bg-indigo-600 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-700 focus-visible:ring active:bg-indigo-800 md:text-base">
-                Create a QR Code
-              </Link>
+          <Link to="/qr-code-generator" className="inline-block rounded-lg bg-indigo-600 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-700 focus-visible:ring active:bg-indigo-800 md:text-base">
+            Create a QR Code
+          </Link>
               <ScrollToFeaturesButton />
             </div>
           </div>
@@ -25,11 +24,9 @@ const Hero = () => {
           {/* image - start */}
           <div className="lg:h-auto lg:w-5/12 flex justify-center items-center">
             <div className="w-full max-w-[500px] lg:max-w-none">
-              <Image
+              <img
                 src="/images/qrhero.png"
                 alt="Photo by Fakurian Design"
-                width={500}
-                height={500}
                 className="h-auto w-full rounded-2xl object-cover object-center"
               />
             </div>

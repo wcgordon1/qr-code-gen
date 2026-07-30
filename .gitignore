@@ -9,12 +9,11 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
+# build artifacts
+/dist
+/.turbo
+/out
+/.next
 
 # misc
 .DS_Store
@@ -28,9 +27,8 @@ yarn-error.log*
 # local env files
 .env*.local
 
-# vercel
-.vercel
+# platform helpers
+wrangler.toml
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts

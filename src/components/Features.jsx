@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 
 const Features = () => {
   return (
@@ -67,7 +67,11 @@ const FeatureItem = ({ icon, title, description, link, comingSoon }) => {
         {comingSoon ? (
           <span className="font-bold text-gray-400 cursor-not-allowed">Coming Soon</span>
         ) : (
-          <Link href={link} className="font-bold text-indigo-600 transition duration-100 hover:text-indigo-600 active:text-indigo-600">Try it now</Link>
+          link === "#" ? (
+            <a href="#" className="font-bold text-indigo-600 transition duration-100 hover:text-indigo-600 active:text-indigo-600">Coming Soon</a>
+          ) : (
+            <Link to={link} className="font-bold text-indigo-600 transition duration-100 hover:text-indigo-600 active:text-indigo-600">Try it now</Link>
+          )
         )}
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Testimonials from "../components/Testimonials";
@@ -6,12 +7,16 @@ import Team from "../components/Team";
 import Faq from "../components/Faq";
 import Footer from "../components/Footer";
 
-export default function Home() {
+const HomePage = () => {
+  useEffect(() => {
+    document.title = "QR Code Llama - Free QR Code Generator";
+  }, []);
+
   return (
     <>
       <Header />
       <main>
-        <Hero /> 
+        <Hero />
         <Testimonials />
         <div id="features">
           <Features />
@@ -22,4 +27,6 @@ export default function Home() {
       <Footer />
     </>
   );
-}
+};
+
+export default HomePage;
