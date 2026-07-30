@@ -1,16 +1,37 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Geist";
+  src: url("/src/app/fonts/GeistVF.woff") format("woff");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/src/app/fonts/GeistMonoVF.woff") format("woff");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #0f172a;
   color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Geist", Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
 }
 
 button,
@@ -18,4 +39,71 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+.font-mono {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+.qr-preview-grid {
+  background-color: #ffffff;
+  background-image:
+    linear-gradient(45deg, #e2e8f0 25%, transparent 25%),
+    linear-gradient(-45deg, #e2e8f0 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e2e8f0 75%),
+    linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+  background-size: 16px 16px;
+}
+
+.qr-range {
+  height: 0.35rem;
+  cursor: pointer;
+  appearance: none;
+  border-radius: 999px;
+  background: #e2e8f0;
+  accent-color: #4f46e5;
+}
+
+.qr-range::-webkit-slider-thumb {
+  width: 1.1rem;
+  height: 1.1rem;
+  appearance: none;
+  border: 3px solid #ffffff;
+  border-radius: 999px;
+  background: #4f46e5;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.28);
+}
+
+.qr-range::-moz-range-thumb {
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 3px solid #ffffff;
+  border-radius: 999px;
+  background: #4f46e5;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.28);
+}
+
+.qr-range:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

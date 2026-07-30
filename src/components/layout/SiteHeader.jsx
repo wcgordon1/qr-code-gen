@@ -9,7 +9,7 @@ import FeaturesLink from "../navigation/FeaturesLink.jsx";
  */
 export default function SiteHeader() {
   return (
-    <header className="mb-24 bg-white shadow-md">
+    <header className="relative z-20 border-b border-slate-200/80 bg-white/90 backdrop-blur">
       <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
         <div className="flex items-center justify-between py-4">
           <Link to="/" className="flex items-center" aria-label="QR Code Llama">

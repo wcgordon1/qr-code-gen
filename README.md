@@ -12,10 +12,14 @@ to an application server.
 ## Features
 
 - Five client-side QR generator types
-- Square, rounded, and dot module styles
-- Foreground and background color controls
-- A 7:1 contrast warning to help preserve scannability
-- PNG, JPEG, WebP, and SVG downloads
+- Six module styles with independent outer and inner finder-eye controls
+- Solid, linear-gradient, radial-gradient, and transparent color options
+- Curated design presets and optional PNG, JPEG, or WebP center logos
+- Local QR decoding at three representative sizes with no server upload
+- A static scanability panel with contrast and decode guidance
+- Adjustable quiet zone, error correction, canvas shape, and SVG-native frames
+- PNG, JPEG, WebP, and SVG downloads at custom resolutions
+- PNG and SVG clipboard actions
 - Responsive components with accessible labels and keyboard controls
 - Lazy-loaded routes and Cloudflare Pages SPA support
 - Optional Microsoft Clarity analytics through an environment variable
@@ -59,7 +63,7 @@ under [Customize the template](#customize-the-template).
 | `npm run preview` | Serves an existing production build locally. |
 | `npm start` | Alias for `npm run preview`; run the build first. |
 | `npm run lint` | Checks all JavaScript and JSX with ESLint. |
-| `npm run test` | Runs payload and contrast tests with Node.js. |
+| `npm run test` | Runs payload, design, contrast, and scan-state tests. |
 | `npm run check` | Runs lint, tests, and the production build together. |
 
 ## Project structure
@@ -71,32 +75,38 @@ under [Customize the template](#customize-the-template).
 │   │   ├── home/          Home page sections and editable marketing content
 │   │   ├── layout/        Shared header, footer, and terms notice
 │   │   ├── navigation/    Cross-route navigation behavior
-│   │   └── qr-code/       Generator fields, controls, preview, and downloads
+│   │   └── qr-code/       Content, pattern, color, logo, preview, and export UI
 │   ├── config/
-│   │   └── generatorConfig.js   Routes, labels, validation, and defaults
+│   │   ├── generatorConfig.js   Routes, labels, validation, and defaults
+│   │   └── qrCodeOptions.js     Design choices, presets, and export formats
 │   ├── hooks/
 │   │   ├── useDocumentTitle.js  Browser title synchronization
-│   │   └── useQrCode.js         Rendering, appearance, and export lifecycle
+│   │   ├── useQrCode.js         Rendering and scan-check lifecycle
+│   │   └── useQrCodeExport.js   Browser downloads and clipboard output
 │   ├── pages/             Route-level page composition
 │   ├── utils/
 │   │   ├── analytics.js         Optional Microsoft Clarity loader
 │   │   ├── colorContrast.js     Contrast calculations
-│   │   └── qrCodePayloads.js    Generator payload builders
+│   │   ├── qrCodeDesign.js      Renderer options and SVG frame extensions
+│   │   ├── qrCodePayloads.js    Generator payload builders
+│   │   ├── qrCodeRenderer.js    Shared preview and file renderer
+│   │   └── qrCodeScan.js        Private, in-browser decode checks
 │   ├── App.jsx            Router and lazy page configuration
 │   ├── index.css          Tailwind CSS and global styles
 │   └── main.jsx           React application entry point
 └── test/                  Payload and contrast unit tests
 ```
 
-The design deliberately separates three concerns:
+The design deliberately separates generator and rendering concerns:
 
 1. `generatorConfig.js` describes what each generator is called and how it is
    validated.
 2. `GeneratorFields.jsx` renders only the fields unique to a generator.
 3. `qrCodePayloads.js` converts those values into data that a QR scanner can
    interpret.
-
-The shared `QrCodeGenerator` component handles everything else.
+4. `qrCodeOptions.js` describes available appearance and export choices.
+5. `useQrCode.js` coordinates preview and scan state while
+   `useQrCodeExport.js` isolates browser file operations.
 
 ## Customize the template
 
@@ -124,11 +134,15 @@ them before using this repository for another brand.
   names in `src/config/generatorConfig.js`.
 - Edit form controls in `src/components/qr-code/GeneratorFields.jsx`.
 - Edit encoded output in `src/utils/qrCodePayloads.js`.
-- Edit the available QR shapes and appearance controls in
-  `src/components/qr-code/QrCodeStyleControls.jsx`.
-- Edit export formats in `src/components/qr-code/QrCodePreview.jsx`.
+- Edit presets, available shapes, correction levels, frames, and export formats
+  in `src/config/qrCodeOptions.js`.
+- Edit renderer mapping and SVG frame output in
+  `src/utils/qrCodeDesign.js`.
+- Edit pattern, color, logo, and advanced UI in the focused
+  `src/components/qr-code/QrCode*Controls.jsx` files.
 - Edit the recommended contrast threshold in
   `src/utils/colorContrast.js`.
+- Edit local scan-test sizes in `src/utils/qrCodeScan.js`.
 
 The link generator encodes its input exactly as entered and can therefore also
 create plain-text QR codes. Include a URL scheme such as `https://` when a
@@ -187,15 +201,18 @@ For other hosts, configure all unknown routes to serve `index.html`.
 
 ## Privacy and QR safety
 
-QR payloads are generated in the browser. This repository does not include an
-API or persistence layer. Optional third-party analytics can still collect
-usage information when configured, so describe that accurately in your own
-privacy policy.
+QR payloads, logo files, scan checks, clipboard output, and downloads are
+processed in the browser. This repository does not include an API or
+persistence layer. The scanability check rasterizes the current QR in memory
+and uses `jsQR` to compare locally decoded output with the requested payload.
+Optional third-party analytics can still collect usage information when
+configured, so describe that accurately in your own privacy policy.
 
-A generated QR code should always be tested with multiple scanners before it
-is printed or published. Keep strong foreground/background contrast, leave
-adequate quiet space around the code, and verify the final exported file—not
-only the on-screen preview.
+The local check is a useful warning system, not a guarantee for every camera,
+screen, printer, material, or lighting condition. Test important QR codes with
+multiple physical scanners before printing or publishing. Keep strong
+foreground/background contrast, leave adequate quiet space around the code,
+and verify the final exported file—not only the on-screen preview.
 
 ## Contributing
 
@@ -213,5 +230,6 @@ and replace those assets when using this as a new brand.
 ## Acknowledgments
 
 - QR rendering: [qr-code-styling](https://github.com/kozakdenys/qr-code-styling)
+- Local QR decoding: [jsQR](https://github.com/cozmo/jsQR)
 - UI utilities: [Tailwind CSS](https://tailwindcss.com)
 - Original UI inspiration: [Flowrift](https://flowrift.com)

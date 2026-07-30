@@ -53,3 +53,23 @@ export function hasLowQrCodeContrast(foregroundColor, backgroundColor) {
     MINIMUM_QR_CONTRAST_RATIO
   );
 }
+
+/**
+ * Finds the weakest contrast produced by solid colors or gradient stops.
+ *
+ * @param {string[]} foregroundColors - Every color used by QR modules or eyes.
+ * @param {string[]} backgroundColors - Every QR background color.
+ * @returns {number} The lowest contrast ratio across all possible pairs.
+ */
+export function getMinimumQrContrastRatio(
+  foregroundColors,
+  backgroundColors,
+) {
+  const contrastRatios = foregroundColors.flatMap((foregroundColor) =>
+    backgroundColors.map((backgroundColor) =>
+      getContrastRatio(foregroundColor, backgroundColor),
+    ),
+  );
+
+  return Math.min(...contrastRatios);
+}

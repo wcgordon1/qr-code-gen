@@ -1,27 +1,34 @@
 /**
- * Renders a labeled native color picker for one part of the QR code.
+ * Renders a labeled native color picker with its exact hexadecimal value.
  *
  * @param {object} props - Component properties.
- * @param {string} props.color - The currently selected hexadecimal color.
- * @param {string} props.label - The name shown on the picker button.
+ * @param {string} props.color - Current six-digit hexadecimal color.
+ * @param {string} props.label - Human-readable color role.
  * @param {(color: string) => void} props.onChange - Stores a selected color.
- * @returns {JSX.Element} A QR color control.
+ * @returns {JSX.Element} Accessible QR color control.
  */
 export default function QrCodeColorPicker({ color, label, onChange }) {
   return (
-    <label className="flex items-center">
-      <span className="mr-2 inline-block rounded-lg bg-gray-200 px-8 py-3 text-center text-sm font-semibold text-gray-700 md:text-base">
-        {label}
+    <label className="flex cursor-pointer items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white p-2.5 transition hover:border-slate-300 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-100">
+      <span className="min-w-0">
+        <span className="block text-xs font-semibold text-slate-700">
+          {label}
+        </span>
+        <span className="mt-0.5 block font-mono text-[11px] uppercase tracking-wide text-slate-400">
+          {color}
+        </span>
       </span>
-      <input
-        type="color"
-        value={color}
-        onChange={(event) => onChange(event.target.value)}
-        className="h-10 w-10 cursor-pointer rounded-lg border border-gray-300 bg-white p-1"
-        aria-label={label}
-      />
-      <span className="sr-only" aria-live="polite">
-        {color}
+      <span
+        className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md border border-slate-200 shadow-inner"
+        style={{ backgroundColor: color }}
+      >
+        <input
+          type="color"
+          value={color}
+          onChange={(event) => onChange(event.target.value)}
+          className="absolute -inset-2 h-14 w-14 cursor-pointer opacity-0"
+          aria-label={label}
+        />
       </span>
     </label>
   );

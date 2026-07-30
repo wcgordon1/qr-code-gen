@@ -3,7 +3,7 @@ import { useState } from "react";
 import { GENERATOR_TYPES } from "../../config/generatorConfig.js";
 
 const INPUT_CLASS_NAME =
-  "w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring";
+  "min-h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3 text-sm text-slate-900 outline-none transition duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-100";
 
 /**
  * Renders the input fields required by the active generator type.
@@ -146,8 +146,7 @@ function PhoneNumberFields({ values, onChange }) {
       <FormField
         label="Country code"
         inputId="country-code"
-        className="w-1/4"
-        isLabelHidden
+        className="w-[7.5rem] shrink-0"
       >
         <input
           id="country-code"
@@ -162,8 +161,7 @@ function PhoneNumberFields({ values, onChange }) {
       <FormField
         label="Phone number"
         inputId="phone-number"
-        className="w-3/4"
-        isLabelHidden
+        className="min-w-0 flex-1"
       >
         <input
           id="phone-number"
@@ -238,14 +236,14 @@ function WifiFields({ values, onChange }) {
       </FormField>
       <label
         htmlFor="hidden-network"
-        className="flex items-center text-sm font-medium text-gray-700"
+        className="flex items-center rounded-xl bg-slate-50 p-3 text-sm font-medium text-slate-700"
       >
         <input
           id="hidden-network"
           type="checkbox"
           checked={values.hidden}
           onChange={(event) => onChange("hidden", event.target.checked)}
-          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+          className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
         />
         <span className="ml-2">Hidden network</span>
       </label>
@@ -263,16 +261,14 @@ function FormField({
   children,
   className = "w-full",
   inputId,
-  isLabelHidden = false,
   label,
 }) {
-  const labelClassName = isLabelHidden
-    ? "sr-only"
-    : "mb-1 block text-sm font-medium text-gray-700";
-
   return (
     <div className={className}>
-      <label htmlFor={inputId} className={labelClassName}>
+      <label
+        htmlFor={inputId}
+        className="mb-1.5 block text-xs font-semibold text-slate-700"
+      >
         {label}
       </label>
       {children}

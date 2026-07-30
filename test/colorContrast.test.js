@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   getContrastRatio,
+  getMinimumQrContrastRatio,
   getRelativeLuminance,
   hasLowQrCodeContrast,
 } from "../src/utils/colorContrast.js";
@@ -16,4 +17,14 @@ test("black and white produce the maximum contrast ratio", function () {
 
 test("similar colors trigger the QR contrast warning", function () {
   assert.equal(hasLowQrCodeContrast("#777777", "#888888"), true);
+});
+
+test("reports the weakest contrast across gradient and corner colors", function () {
+  assert.equal(
+    getMinimumQrContrastRatio(
+      ["#000000", "#777777"],
+      ["#ffffff", "#888888"],
+    ),
+    getContrastRatio("#777777", "#888888"),
+  );
 });

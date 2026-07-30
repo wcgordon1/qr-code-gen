@@ -35,6 +35,7 @@
     "check": "npm run lint && npm run test && npm run build"
   },
   "dependencies": {
+    "jsqr": "^1.4.0",
     "qr-code-styling": "^1.6.0-rc.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
